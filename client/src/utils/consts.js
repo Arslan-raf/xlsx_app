@@ -1,0 +1,7 @@
+export const REGISTRATION_ROUTE = '/registration'
+export const MAIN_ROUT = '/'
+export const USER_ROUT = '/user'
+export const GUEST_ROUTE = '/guest'
+export const INSTRUCTOR_ROUTE = '/instructor'
+export const TRANSPORT_ROUTE = '/transport'
+export const EVENT_ROUTE = '/event'
