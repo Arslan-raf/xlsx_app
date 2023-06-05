@@ -4,9 +4,9 @@ const { DataTypes } = require('sequelize') //класс с помощью кот
 Sequelize - это ORM-библиотека для приложений на Node.js, которая осуществляет сопоставление таблиц в БД
  и отношений между ними с классами. При использовании Sequelize мы можем не писать SQL-запросы,
 а работать с данными как с обычными объектами. 
-Причем Sequelize может работать с рядом СУБД - MySQL, Postgres, MariaDB, SQLite, MS SQL Server.
 */
 
+//модель пользователь
 const User = sequelize.define('user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
@@ -29,12 +29,12 @@ const Transport = sequelize.define('transport', {
     transport_number: { type: DataTypes.STRING, unique: true, allowNull: false },
 })
 
-//????????????????/
-const Rating = sequelize.define('rating', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    rating_name: { type: DataTypes.INTEGER, unique: true, allowNull: false }
-})
+// const Rating = sequelize.define('rating', {
+//     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+//     rating_name: { type: DataTypes.INTEGER, unique: true, allowNull: false }
+// })
 
+//модель мероприятия (события)
 const Events = sequelize.define('events', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     event_name: { type: DataTypes.STRING, allowNull: false }
@@ -61,21 +61,10 @@ Events.belongsToMany(Guest, { through: GuestEvents}) //многие ко мно�
 Guest.belongsToMany(Events, { through: GuestEvents })
 
 
-
-// User.hasMany(Events)
-// Events.belongsTo(User)
-
-// User.hasMany(Events)
-// Transport.hasMany(Events)
-// Rating.hasMany(Events)
-
-// User.belongsToMany(Events, { through: UserEvents}) //многие ко многим
-// Events.belongsToMany(User, { through: UserEvents })
-
 module.exports = {
     User,
     Transport,
-    Rating,
+    // Rating,
     Events,
     Guest,
     Instructor

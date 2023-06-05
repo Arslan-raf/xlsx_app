@@ -18,11 +18,12 @@ export default function UserPage() {
 
     return (
         <div>
+            
             <h2>Пользователи:</h2>
             {
                 data && data.map((item) => {
                     return (
-                        <div>
+                        <div key={item.name}>
                             <h3 key={item.id}>{item.name}</h3>
                             <p key={item.email}>{item.email}</p>
                             <hr></hr>

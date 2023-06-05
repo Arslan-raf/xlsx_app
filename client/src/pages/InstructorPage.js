@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import AddInstructorModal from "../components/instructor/AddInstructorModal";
+import InstructorItem from "../components/instructor/InstructorItem";
 
 export default function InstructorPage() {
-    const [data, setData] = useState()
-    const [formData, setFormData] = useState('')
+    const [modal, setModal] = useState(false);
+    
+    const [data, setData] = useState([])
 
     useEffect(() => {
         getInstructor()
@@ -17,46 +20,23 @@ export default function InstructorPage() {
             });
     }
 
-    const saveInstructore = () => {
-        axios.post('http://localhost:4000/api/instructor',{
-            name: formData,
-            // userId: 1,
-          })
-          .then(function (response) {
-            setData(formData)
-            setFormData('')
-          })
-    }
-
-    const handleSubmit = (event) => {
-        // event.preventDefault()
-        saveInstructore()
-    }
-
-    const handleChange = (event) => {
-        setFormData(event.target.value)
-    }
-
-
-
     return (
         <div>
-            <h2>Добавить инструктора:</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="name" value={formData} onChange={handleChange} />
-                <button type="submit">click</button>
-            </form>
+             <AddInstructorModal data={data} setData={setData} visible={modal} setVisible={setModal}/>
+
+            <h2>Добавить нового инструктора:</h2>
+            <button className="btn btn-primary" onClick={() => { setModal(true) }}>Добавить</button>
 
             <h2>Инструкторы:</h2>
             {
-                data && data.map((item) => {
+                data && data.map((instructor) => {
                     return (
-                        <div key={item.id}>
-                            <h3 key={item.id}>Id: {item.id}</h3>
-                            <p key={item.name}>Name: {item.name}</p>
-                            <p key={item.name + '1'}>UserID: {item.userId}</p>
-                            <hr></hr>
-                        </div>
+                        <InstructorItem 
+                            data={data}  
+                            setData={setData} 
+                            key={instructor.id} 
+                            instructor={instructor} >
+                        </InstructorItem>
                     )
                 })
             }

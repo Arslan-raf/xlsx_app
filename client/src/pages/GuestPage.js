@@ -22,9 +22,8 @@ export default function GuestPage() {
             {
                 data && data.map((item) => {
                     return (
-                        <div>
+                        <div key={item.name+1}>
                             <h3 key={item.id}>{item.name}</h3>
-                            <p key={item.email}>{item.email}</p>
                             <hr></hr>
                         </div>
                     )

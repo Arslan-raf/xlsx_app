@@ -3,7 +3,7 @@ import { authRoutes } from '../routes'
 import { Routes, Route, Link } from 'react-router-dom'
 import '../css/AppRouter.css'
 
-export default function AppRouter() {
+export default function AppRouter() {    
     const isAuth = true
     return (
         <div>
@@ -14,6 +14,7 @@ export default function AppRouter() {
                 { isAuth && <Link to="/instructor">Instructor</Link> }
                 { isAuth && <Link to="/transport">Transport</Link> }
                 { isAuth && <Link to="/event">Events</Link> }
+                <Link to="/login">Авторизация</Link>
             </header>
 
             <Routes>
@@ -25,4 +26,8 @@ export default function AppRouter() {
             </Routes>
         </div>
     )
+}
+
+const activeStyle = {
+    color: 'white'
 }
