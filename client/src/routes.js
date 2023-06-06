@@ -4,7 +4,8 @@ import Guest from "./pages/GuestPage"
 import Instructor from './pages/InstructorPage'
 import Events from "./pages/EventsPage"
 import Transport from "./pages/TransportPage"
-import Auth from "../src/components/auth/Auth"
+import LoginPage from "./pages/LoginPage"
+import RegistrationPage from "./pages/RegistrationPage"
 
 export const authRoutes = [
     {
@@ -27,12 +28,15 @@ export const authRoutes = [
         path: EVENT_ROUTE,
         element: <Events></Events>
     },
+]
+
+export const otherRoutes = [
     {
         path: REGISTRATION_ROUTE,
-        element: <Auth></Auth>
+        element: <RegistrationPage></RegistrationPage>
     },
     {
         path: LOGIN_ROUTE,
-        element: <Auth></Auth>
+        element: <LoginPage></LoginPage>
     },
 ]

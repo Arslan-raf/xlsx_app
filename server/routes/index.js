@@ -12,7 +12,7 @@ const instructorRouter = require('./instructorRouter')
 
 router.use('/user', userRouter)
 router.use('/guest', guestRouter)
-router.use('/instructor', instructorRouter)
+router.use('/instructor',instructorRouter)
 
 router.use('/transport', transportRouter)
 router.use('/event', eventRouter)
