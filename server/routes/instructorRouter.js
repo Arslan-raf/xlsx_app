@@ -4,6 +4,7 @@ const router = Router()
 const instructorController = require('../controllers/instructorController')
 // const checkRole = require('../middleware/checkRoleMiddleware')
 
+
 router.post('/',  instructorController.create) //checkRole('ADMIN'),
 router.get('/', instructorController.getAll)
 router.get('/:id', instructorController.getOne)

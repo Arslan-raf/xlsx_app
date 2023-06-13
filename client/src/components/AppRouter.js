@@ -18,14 +18,11 @@ export default function AppRouter() {
         console.log("window.localStorage", window.localStorage);
     }
 
-    console.log(isAuth);
-    // const isAuth = false
 
     return (
         <div>
             <header className='header'>
-                <Link to="/">Main</Link>
-                <Link to="/login">Авторизация</Link>
+                {!isAuth && <Link to="/login">Авторизация</Link>}
 
                 {
                     isAuth && (<ul className='nav_ul'>

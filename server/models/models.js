@@ -37,7 +37,10 @@ const Transport = sequelize.define('transport', {
 //модель мероприятия (события)
 const Events = sequelize.define('events', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    event_name: { type: DataTypes.STRING, allowNull: false }
+    event_name: { type: DataTypes.STRING, allowNull: false },
+    start_date: { type: DataTypes.DATE, allowNull:false },
+    end_date: { type: DataTypes.DATE, allowNull:false },
+    comment: {type: DataTypes.STRING},
 })
 
 const GuestEvents = sequelize.define('guest_events', {
@@ -56,6 +59,9 @@ Transport.belongsTo(Events)
 
 Events.belongsTo(Guest)
 Guest.belongsTo(Events) 
+
+Instructor.hasMany(Events)
+Events.belongsTo(Instructor)
 
 Events.belongsToMany(Guest, { through: GuestEvents}) //многие ко многим
 Guest.belongsToMany(Events, { through: GuestEvents })
