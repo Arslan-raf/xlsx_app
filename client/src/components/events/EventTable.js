@@ -2,16 +2,16 @@ import React, { useEffect, useRef, forwardRef, useState } from "react";
 import EventTableTd from './EventTableTd'
 import axios from "axios";
 
-const EventTable = ({ events, setEvents, myref }) => {
+const EventTable = ({ events, setEvents, myref, refButtons }) => {
 
     const [visible, setVisible] = useState(false)
 
 
     const eventDelete = (id) => {
         axios.delete(`http://localhost:4000/api/event/${id}`)
-        // const index = events.findIndex(item => item.id === id)
-        // events.splice(index, 1)
-        // console.log('events',events);
+        const index = events.findIndex(item => item.id === id)
+        events.splice(index, 1)
+        // console.log('events', events);
         // console.log(index);
         setEvents([...events])
     }
@@ -22,10 +22,6 @@ const EventTable = ({ events, setEvents, myref }) => {
         setEvents([...events])
     }
 
-    //для проверки:
-    useEffect(()=>{
-        console.log("events:",events);
-    },[events])
 
     return (
         <div>
@@ -75,8 +71,8 @@ const EventTable = ({ events, setEvents, myref }) => {
                                     <td>
                                         {event.comment}
                                     </td>
-                                    <EventTableTd  instructorId={event.instructorId}></EventTableTd>
-                                    <td>
+                                    <EventTableTd instructorId={event.instructorId}></EventTableTd>
+                                    <td id="deleteForExcel" ref={refButtons}>
                                         <button onClick={() => eventUpdate(event.id)} >редакт</button>
                                         <button onClick={() => eventDelete(event.id)}>удалить</button>
                                     </td>

@@ -40,8 +40,34 @@ class EventControler {
         }
     }
 
-    async getOne(req, res) {
+    async getEventsWithPagination(req, res) {
+        try {
+            const offset = req.params.offset
+            const limit = req.params.limit
 
+            console.log("offset: ", offset, "limit ", limit);
+
+            const events = await Events.findAll({ offset: offset, limit: limit });
+
+            return res.json(events)
+        } catch (error) {
+            return res.json({ message: "ошибка" })
+        }
+    }
+
+    async getOne(req, res) {
+        try {
+            const { id } = req.params
+            const event = await Events.findOne(
+                {
+                    where: { id }
+                }
+            )
+            return res.json(event)
+        }
+        catch (e) {
+            return res.json(e)
+        }
     }
 
     async delete(req, res) {

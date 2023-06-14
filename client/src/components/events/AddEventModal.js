@@ -120,7 +120,8 @@ export default function AddEvent({ events, setEvents, visible, setVisible }) {
 
                             <div>
                                 <label>Выберите инструктора</label>
-                                <select required
+                                <select 
+                                    required
                                     name="instructor_id"
                                     key={dataInstr[0]}
                                     value={selectInstructor}
