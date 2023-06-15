@@ -76,6 +76,7 @@ export default function EventPage() {
 
     // обработчик создания эксель файла
     const handleExcel = () => {
+
         //РАБОЧЕЕ
         // var workbook = XLSX.utils.table_to_book(ref.current);
         // var ws = workbook.Sheets["Sheet1"];
@@ -125,6 +126,24 @@ export default function EventPage() {
         XLSX.writeFile(wb, 'SheetTest.xlsx');
     }
 
+
+    //тест работы с буфером обмена
+    const [fromClipboard, setFromClipboard] = useState('')
+
+    const handlerFromClipboard = (event) => {
+        setFromClipboard(event.target.value)
+    }
+
+    const pasteClipboard = async () => {
+        try {
+            const text = await navigator.clipboard.readText();
+            setFromClipboard(text)
+            console.log('Pasted content: ', text);
+        } catch (err) {
+            console.error('Failed to read clipboard contents: ', err);
+        }
+    }
+
     return (
         <div>
             <div>
@@ -134,15 +153,22 @@ export default function EventPage() {
             <div>
                 <button onClick={handleExcel}>Скачать Excel</button>
             </div>
+
+            <div>
+                <label>Сюда вставится текст с буфера обмена: </label>
+                <input value={fromClipboard} onChange={handlerFromClipboard} /> 
+                <button onClick={pasteClipboard}>Вставить текст</button>
+            </div>
+
             <AddEventModal events={events} setEvents={setEvents} visible={modal} setVisible={setModal}></AddEventModal>
 
             {
                 loader
-                ?   <Loader/>
-                :   <EventTable refButtons={refButtons} myref={ref} events={events} setEvents={setEvents}></EventTable>
+                    ? <Loader />
+                    : <EventTable refButtons={refButtons} myref={ref} events={events} setEvents={setEvents}></EventTable>
             }
             {/* <EventTable refButtons={refButtons} myref={ref} events={events} setEvents={setEvents}></EventTable> */}
-            <div style={{ display: "flex", justifyContent: "center", gap:20 }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: 20 }}>
                 <button onClick={prevPage}>Back</button>
                 <button onClick={nextPage}>Next</button>
             </div>
