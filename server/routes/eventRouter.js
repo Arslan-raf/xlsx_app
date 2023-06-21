@@ -4,6 +4,7 @@ const router = Router()
 const eventControler = require('../controllers/eventControler')
 
 router.post('/', eventControler.create)
+router.post('/creatingAnArrayOfEvents', eventControler.createAnArrayOfEvents)
 
 router.delete('/:id', eventControler.delete)
 router.put('/:id', eventControler.update)

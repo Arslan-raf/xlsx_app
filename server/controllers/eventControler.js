@@ -31,6 +31,21 @@ class EventControler {
         }
     }
 
+    //создание мероприятий используя  массив объектов
+    async createAnArrayOfEvents(req, res){
+        try {
+            const arrOfObjects = req.body
+            console.log("req.body", arrOfObjects);
+
+            const events = await Events.bulkCreate(arrOfObjects);
+
+            return res.json({ message: events })
+
+        } catch (error) {
+            return res.json({ message: "Не удалось создать мероприятия" })
+        }
+    }
+
     async getAll(req, res) {
         try {
             const events = await Events.findAll() //userId, transportId
@@ -47,7 +62,11 @@ class EventControler {
 
             console.log("offset: ", offset, "limit ", limit);
 
-            const events = await Events.findAll({ offset: offset, limit: limit });
+            const events = await Events.findAll({ 
+                offset: offset, 
+                limit: limit, 
+                order: [['createdAt', 'DESC']]
+            });
 
             return res.json(events)
         } catch (error) {

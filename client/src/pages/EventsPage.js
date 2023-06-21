@@ -3,11 +3,13 @@ import axios from "axios";
 import EventTable from "../components/events/EventTable";
 import AddEventModal from "../components/events/AddEventModal";
 import Loader from "../components/UI/Loader";
+import AddEventClipboardModal from "../components/events/AddEventClipboardModal";
 const XLSX = require("xlsx");
 
 export default function EventPage() {
     //видимость модального окна
     const [modal, setModal] = useState(false);
+    const [clipboardModal, setClipboardModal] = useState(false);
 
     //сами данные, мероприятия 
     const [events, setEvents] = useState([])
@@ -127,6 +129,27 @@ export default function EventPage() {
     }
 
 
+    //ОШИБКА ПРИ ИМПОРТИРОВАНИИ:
+    //     Unfortunately you can't use readFile in the browser:
+    // readFile is only available in server environments. Browsers have no API for reading arbitrary files given a path, so another strategy must be used.
+
+    // const handleImportExcel = () => {
+    //     const workbook = XLSX.readFile('../excelFiles/textImport.xlsx')
+    //     let worksheet = workbook.Sheets[workbook.SheetNames[0]]
+
+    //     for (let i = 2; i < 7; i++) {
+    //         const id = worksheet[`A${i}`].v;
+    //         const name = worksheet[`B${i}`].v;
+    //         // const name = worksheet[`B${i}`].v;
+    //         // const name = worksheet[`B${i}`].v;
+    //         console.log({
+    //             id: id,
+    //             name: name
+    //         });
+    //     }
+
+    // }
+
     //тест работы с буфером обмена
     const [fromClipboard, setFromClipboard] = useState('')
 
@@ -136,12 +159,36 @@ export default function EventPage() {
 
     const pasteClipboard = async () => {
         try {
+            const arrayResult = [];
             const text = await navigator.clipboard.readText();
             setFromClipboard(text)
             console.log('Pasted content: ', text);
+
+            //Метод str.match(regexp) ищет совпадения с regexp в строке str.
+            const arrayOfLines = text.match(/[^\r\n]+/g); 
+            console.log('arrayOfLines: ', arrayOfLines);
+
+            if (arrayOfLines.length === 0) {
+                return { result: null };
+            } else {
+                await Promise.all(arrayOfLines.map(line => {
+                    const arrayWords = splitLine(line);
+                    if (arrayWords !== null) {
+                        arrayResult.push(arrayWords);
+                        console.log("arrayWords: ", arrayWords);
+                    }
+                }))
+            }
+
+            console.log(arrayResult);
         } catch (err) {
             console.error('Failed to read clipboard contents: ', err);
         }
+    }
+
+    function splitLine(line) {
+        const arrayOfLines = line.match(/[^\t\s]+/g);
+        return arrayOfLines;
     }
 
     return (
@@ -149,19 +196,21 @@ export default function EventPage() {
             <div>
                 Мероприятия:
                 <button onClick={() => setModal(true)}>Добавить мероприятие</button>
+                <button onClick={() => setClipboardModal(true)}>Добавить мероприятие с помощью Буфера обмена</button>
             </div>
             <div>
                 <button onClick={handleExcel}>Скачать Excel</button>
+                {/* <button onClick={handleImportExcel}>Получить данные из Excel</button> */}
             </div>
 
             <div>
                 <label>Сюда вставится текст с буфера обмена: </label>
-                <input value={fromClipboard} onChange={handlerFromClipboard} /> 
+                <input value={fromClipboard} onChange={handlerFromClipboard} />
                 <button onClick={pasteClipboard}>Вставить текст</button>
             </div>
 
             <AddEventModal events={events} setEvents={setEvents} visible={modal} setVisible={setModal}></AddEventModal>
-
+            <AddEventClipboardModal events={events} setEvents={setEvents} visible={clipboardModal} setVisible={setClipboardModal} ></AddEventClipboardModal>
             {
                 loader
                     ? <Loader />
